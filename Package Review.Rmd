@@ -16,6 +16,25 @@ library(sqldf)
 
 ### Usage
 
+The only function included in the sqldf package is sqldf(). Although the function is optimized for convenience, in some cases the sqldf function “can be faster than the corresponding pure R calculation.” The function takes R dataframe(s) in place of standard SQL table name(s) and automatically creates an appropriate database. sqldf() executes the specified SQL commands upon said database and returns an R dataframe. The database sqldf() created is deleted making the entire process “transparent” to the user. 
+
+While there is only one function included in the sqldf package, there are many SQL keywords and functions available to the user through the package.
+* SELECT: the primary function sqldf refers to. Specifies the columns in the database that the user wants to query
+* FROM: specifies which table to select or delete data from
+* WHERE: filters results to include only records that satisfy the given condition
+* DELETE: deletes rows from a table
+* DROP: deletes a column, constraint, database, index, table, or view
+* GROUP BY: groups rows that have the same values into summary rows, frequently used with aggregate functions, such as COUNT(), MAX(), MIN(), SUM(), and AVG().
+* ORDER BY: used to sort the result-set in ascending or descending order, ascending is default so use the DESC keyword to sort in descending order
+* CASE: similar to a series of if, else if, and else statements in R. Case statements go through a set of conditions and execute the relevant code once a condition is met. 
+  * WHEN: part of a CASE statement, the explicit condition to be met
+  * THEN: follows a WHEN statement, the code to execute if the condition is met
+  * ELSE: what to do if no condition is met, if there is no ELSE statement and no condition is met, the series will return NULL
+  * END: signifies the end of a CASE statement
+* JOIN: there are many different methods to join SQL tables together, here are two common examples (note: sqldf does not support right join, the equivalent is to swap the table order and use LEFT JOIN)
+  * INNER JOIN: selects records that have matches in both tables and merges specified together, must specify which column to merge on in each table
+  * LEFT JOIN: The result of LEFT JOIN shall be the same as the result of INNER JOIN + we’ll have rows, from the “left” table, without a pair in the “right” table
+
 
 
 ### Package Dependencies
