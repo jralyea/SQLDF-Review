@@ -47,7 +47,7 @@ While there is only one function included in the sqldf package, there are many S
 # Examples of Usage: Exploring the NBA
 In order to best demonstrate the functionality of sqldf and SQL in general, below are a few operations querying and manipulating data from the recent NBA clustering lab.
 
-```{r UTF-8Compatible, results='hide'}
+```{r UTF-8Compatible, include=FALSE}
 # Import the relevant data
 stats <- read_csv("nba2020-21.csv")
 salaries <- read_csv("nba_salaries_21.csv")
@@ -57,12 +57,24 @@ utf_compatible <- function(name){
   Encoding(name) <- "UTF-8"
   iconv(name, "UTF-8", "UTF-8",sub='') ## replace any non UTF-8 by ''
 }
-
+# Remove non-UTF-8 characters in Player column from stats tibble  
 stats$Player <- sapply(stats$Player, function(x) utf_compatible(x))
+# Remove non-UTF-8 characters in Player column from salaries tibble
 salaries$Player <- sapply(salaries$Player, function(x) utf_compatible(x))
 
 # Reference: https://stackoverflow.com/questions/17291287/how-to-identify-
 # delete-non-utf-8-characters-in-r
+```
+
+### Initial Datatables {.tabset}
+#### Player Stats
+```{r Stats, echo=FALSE}
+datatable(stats)
+```
+
+#### Player Salaries
+```{r, echo=FALSE}
+datatable(salaries)
 ```
 
 
