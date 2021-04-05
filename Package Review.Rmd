@@ -82,14 +82,32 @@ datatable(salaries)
 ```{r Starters}
 # FIND ALL PLAYERS WHO HAVE STARTED EVERY GAME THEY HAVE PLAYED IN.
 
-# First we want to SELECT all rows. We do this with the SELECT command
-# followed by an "*". FROM designates which database to reference, in this
-# case the "stats" tibble. Finally, where checks that the games played
-# column, G, is equal to the games started column, GS.
+# SELECT all rows (* indicates all)
+# FROM the "stats" tibble
+# WHERE games played, G, is equal to games started, GS
 starters <- sqldf("SELECT * FROM stats WHERE G == GS")
+
 datatable(starters[, 1:6])
 ```
 
+### Number of players who played for each team
+```{r NumPlayers}
+# FIND THE TOTAL NUMBER OF PLAYERS WHO PLAYED FOR 
+# EACH TEAM IN THE 2020-2021 SEASON
+
+# SELECT the "Tm" column and name it as "Team."
+# COUNT the occurrences of each team in Tm, set name to "Total Players."
+# FROM the stats database
+# WHERE Tm is not equal to "TOT." TOT is included for players
+# who played for more than one team (the aggregation of the player's stats)
+# GROUP BY team name
+num.players <- sqldf("SELECT Tm as Team, COUNT(Tm) as 'Total Players'
+                     FROM stats
+                     WHERE Tm != 'TOT'
+                     GROUP BY Tm")
+
+datatable(num.players)
+```
 
 
 
