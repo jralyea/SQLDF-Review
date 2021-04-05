@@ -14,9 +14,6 @@ library(sqldf)
 # Overview
 
 
-### Version History
-
-
 ### Usage
 
 
