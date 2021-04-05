@@ -2,7 +2,13 @@
 title: "SQLDF Package Review"
 author: "Bill Cull, John Hope, and Jay Ralyea"
 date: "4/5/2021"
-output: html_document
+output:
+  html_document:
+    toc: TRUE
+    theme: sandstone
+    toc_float: TRUE
+editor_options: 
+  chunk_output_type: console
 ---
 
 
@@ -108,6 +114,7 @@ num.players <- sqldf("SELECT Tm as Team, COUNT(Tm) as 'Total Players'
 
 datatable(num.players)
 ```
+
 
 
 
