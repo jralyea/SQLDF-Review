@@ -9,6 +9,8 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(sqldf)
+library(tidyverse)
+library(DT)
 ```
 
 # Overview
@@ -41,7 +43,41 @@ While there is only one function included in the sqldf package, there are many S
 
 
 
-# Examples of Usage
+# Examples of Usage: Exploring the NBA
+In order to best demonstrate the functionality of sqldf and SQL in general, below are a few operations querying and manipulating data from the recent NBA clustering lab.
+
+```{r UTF-8Compatible}
+# Import the relevant data
+stats <- read_csv("nba2020-21.csv")
+salaries <- read_csv("nba_salaries_21.csv")
+
+# Function to convert each name into UTF-8 compatible letters
+utf_compatible <- function(name){
+  Encoding(name) <- "UTF-8"
+  iconv(name, "UTF-8", "UTF-8",sub='') ## replace any non UTF-8 by ''
+}
+
+stats$Player <- sapply(stats$Player, function(x) utf_compatible(x))
+salaries$Player <- sapply(salaries$Player, function(x) utf_compatible(x))
+
+# Reference: https://stackoverflow.com/questions/17291287/how-to-identify-
+# delete-non-utf-8-characters-in-r
+```
+
+
+### Players who start all their games
+```{r Starters}
+# FIND ALL PLAYERS WHO HAVE STARTED EVERY GAME THEY HAVE PLAYED IN.
+
+# First we want to SELECT all rows. We do this with the SELECT command
+# followed by an "*". FROM designates which database to reference, in this
+# case the "stats" tibble. Finally, where checks that the games played
+# column, G, is equal to the games started column, GS.
+starters <- sqldf("SELECT * FROM stats WHERE G == GS")
+datatable(starters[, 1:6])
+```
+
+
 
 
 
