@@ -20,13 +20,15 @@ library(DT)
 ```
 
 # Overview
+The sqldf package provides an easy way to execute Series Query Language (SQL) statements in R. According to the sqldf github page, the package is optimized for convenience, implying that it is intended for people with prior knowledge of SQL.
 
+Structured Query Language, or SQL, is a language developed by IBM used to access and manipulate databases. Many of the world’s most prominent and important database systems use SQL in addition to their own proprietary relational database management systems (RDBMS). Before SQL, people would have to use read-write Application Programming Interfaces to access digital records, but with SQL, you can access multiple records with minimal commands and simple syntax. Common applications of SQL commands include executing queries, retrieving data, inserting, updating, and deleting records, and creating databases. SQL is not designed for statistical analysis, it is simply for data management.
 
 ### Usage
 
-The only function included in the sqldf package is sqldf(). Although the function is optimized for convenience, in some cases the sqldf function “can be faster than the corresponding pure R calculation.” The function takes R dataframe(s) in place of standard SQL table name(s) and automatically creates an appropriate database. sqldf() executes the specified SQL commands upon said database and returns an R dataframe. The database sqldf() created is deleted making the entire process “transparent” to the user. 
+The only function included in the sqldf package is sqldf(). Although the function is optimized for convenience, in some cases the sqldf function [“can be faster than the corresponding pure R calculation.”](https://github.com/ggrothendieck/sqldf) The function takes R dataframe(s) in place of standard SQL table name(s) and automatically creates an appropriate database. sqldf() executes the specified SQL commands upon said database and returns an R dataframe. The database sqldf() created is deleted making the entire process “transparent” to the user. 
 
-While there is only one function included in the sqldf package, there are many SQL keywords and functions available to the user through the package.
+While there is only one function included in the sqldf package, there are many [SQL keywords](https://www.w3schools.com/sql/sql_ref_keywords.asp) and functions available to the user through the package.
 
 - SELECT: the primary function sqldf refers to. Specifies the columns in the database that the user wants to query
 - FROM: specifies which table to select or delete data from
@@ -48,9 +50,12 @@ While there is only one function included in the sqldf package, there are many S
 
 ### Package Dependencies
 
+- [Gsubfn](https://cran.r-project.org/web/packages/gsubfn/gsubfn.pdf): The gsubfn function is like gsub but can take a replacement function or certain other objects instead of the replacement string. Gsubfn can also be used to split strings on content rather than requiring a delimiter. The function has the ability to translate formulas to functions and allows formulas in function calls instead of functions. This is especially useful in SQL calls that involve strings where substitution is desirable.
+- [Proto](https://cran.r-project.org/web/packages/proto/proto.pdf): An object oriented system using object-based, or prototype-based, object oriented ideas. The one function, ‘proto’ creates or modifies objects of the proto system.
+- [RSQLite](https://cran.r-project.org/web/packages/RSQLite/readme/README.html): RSQLite package will integrate SQLite into R running in RStudio.  SQLite is a public-domain, single-user, very light-weight database engine that implements a subset of the SQL standard, including the core table creation, updating, insertion, and selection operations, plus transaction management.
 
 
-# Examples of Usage: Exploring the NBA
+# Usage Examples: Exploring the NBA
 In order to best demonstrate the functionality of sqldf and SQL in general, below are a few operations querying and manipulating data from the recent NBA clustering lab.
 
 ```{r UTF-8Compatible, include=FALSE}
@@ -86,7 +91,7 @@ datatable(salaries)
 ```
 
 
-### Players who start all their games
+### Only Starters
 ```{r Starters}
 # FIND ALL PLAYERS WHO HAVE STARTED EVERY GAME THEY HAVE PLAYED IN.
 
@@ -99,7 +104,7 @@ starters <- sqldf("SELECT Player, Pos, Age, Tm as Team, G, GS
 datatable(starters)
 ```
 
-### Number of players who played for each team
+### Teams' Player Totals
 ```{r NumPlayers}
 # FIND THE TOTAL NUMBER OF PLAYERS WHO PLAYED FOR 
 # EACH TEAM IN THE 2020-2021 SEASON
@@ -119,7 +124,7 @@ datatable(num.players)
 ```
 
 
-### Average salary for each team
+### Every Team's Average Salary
 ```{r TeamSalary}
 # FIND THE AVERAGE SALARY OF EACH TEAM FOR THE SEASON
 
@@ -139,7 +144,7 @@ team.salary <- sqldf("SELECT a.Tm as Team, ROUND(AVG(b.Salary), 2) as 'Mean Sala
 datatable(team.salary)
 ```
 
-### Teams' cost per point
+### Teams' Cost per Point
 ```{r}
 # FIND THE DOLLAR COST OF EACH POINT SCORED BY AN NBA TEAM
 
