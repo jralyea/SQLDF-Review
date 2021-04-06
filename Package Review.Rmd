@@ -95,7 +95,7 @@ datatable(salaries)
 ```{r Starters}
 # FIND ALL PLAYERS WHO HAVE STARTED EVERY GAME THEY HAVE PLAYED IN.
 
-# SELECT all rows (* indicates all)
+# SELECT player name, position, age, team, games played, and games started
 # FROM the "stats" tibble
 # WHERE games played, G, is equal to games started, GS
 starters <- sqldf("SELECT Player, Pos, Age, Tm as Team, G, GS
