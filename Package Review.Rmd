@@ -139,13 +139,34 @@ team.salary <- sqldf("SELECT a.Tm as Team, ROUND(AVG(b.Salary), 2) as 'Mean Sala
 datatable(team.salary)
 ```
 
+### Teams' cost per point
+```{r}
+# FIND THE DOLLAR COST OF EACH POINT SCORED BY AN NBA TEAM
+
+# SELECT Tm, Salary, and Pts columns
+# ROUND the sum of the salary column divided by the sum of the points column
+# FROM stats database set as "a"
+# INNER JOIN salaries as "b" and stats databases on Player column
+# GROUP BY Tm
+# HAVING each Tm not equal to 'TOT'
+# ORDER BY cost per point column
+# DESC descending order
+point.cost <- sqldf("SELECT a.Tm, ROUND((SUM(b.Salary) / SUM(a.Pts)), 2) as 'Cost per Point'
+                    FROM stats a
+                    INNER JOIN salaries b ON a.Player = b.Player
+                    GROUP BY a.Tm
+                    HAVING a.Tm != 'TOT'
+                    ORDER BY ROUND((SUM(b.Salary) / SUM(a.Pts)), 2) DESC
+                    ")
+datatable(point.cost)
+```
 
 
 # Similar Pacakgees
 
-With the scope of R packages that are in existence, there must be some that are similar to ours. After some research, we were able to find some packages that showed at least some resemblance to sqldf. The first is [Reticulate](https://cran.r-project.org/web/packages/reticulate/reticulate.pdf). Reticulate provides a set of tools that allow for calling Python from R in Rmarkdown. It allows for sourcing Python scripts, Python Modules, and translation between R and Python Objects. This package would be particularly useful for teams who are collaborating within R but do not all use R. This is similar to sqldf in that it allows for the convenient implementation of a non-native language within the R environment. In the same way that sqldf allows for R users to implement SQL, Reticulate allows R users to impleement Python code. However, Retticulate differs itself from sqldf, as Reticulate can allow for an interactive Python console within R. Objects you create within Python are available to your R session, which is not necessarily guaranteed with the use of the sqldf package alone. Also, when the Reticulate package is accessed, output within R can be presented in python format, whereas the sqldf package only allows a user to implement SQL formatted commands for output that is still styled in the standard RStudio format.
+With the scope of R packages that are in existence, there must be some that are similar to ours. After some research, we were able to find some packages that showed at least some resemblance to sqldf. The first is [Reticulate](https://cran.r-project.org/web/packages/reticulate/reticulate.pdf). Reticulate provides a set of tools that allow for calling Python from R in Rmarkdown. It allows for sourcing Python scripts, Python Modules, and translation between R and Python Objects. This package would be particularly useful for teams who are collaborating within R but do not all use R. This is similar to sqldf in that it allows for the convenient implementation of a non-native language within the R environment. In the same way that sqldf allows for R users to implement SQL, Reticulate allows R users to impleement Python code. However, Reticulate differs itself from sqldf, as Reticulate can allow for an interactive Python console within R. Objects you create within Python are available to your R session, which is not necessarily guaranteed with the use of the sqldf package alone. Also, when the Reticulate package is accessed, output within R can be presented in python format, whereas the sqldf package only allows a user to implement SQL formatted commands for output that is still styled in the standard RStudio format.
 
-A second package we found to be similar is [Rcpp](https://cran.r-project.org/web/packages/Rcpp/Rcpp.pdf). provides efficient integration of C++ and R by providing its own API over R’s C API. This can allow for many benefits for the C++ programer using R, such as the more efficient use of recursive functions and the use of advanced algorithms that R cannot provide. Just like as in sqldf and in Reticulate, Rcpp allows for the convenient implementation of a non-native language within the R environment. Rcpp utilizes C++ code in the same manner that sqldf utilizes SQL code. However, we can differentiate the two packages, as Rccp will compile C++ code and construct R functions that connects to the compiled C++ function in question, rather than literally typing SQL commands into the R environment as sqldf does. In addition, Rcpp does not require the use of assignment to create functions.
+A second package we found to be similar is [Rcpp](https://cran.r-project.org/web/packages/Rcpp/Rcpp.pdf). provides efficient integration of C++ and R by providing its own API over R’s C API. This can allow for many benefits for the C++ programmer using R, such as the more efficient use of recursive functions and the use of advanced algorithms that R cannot provide. Just like as in sqldf and in Reticulate, Rcpp allows for the convenient implementation of a non-native language within the R environment. Rcpp utilizes C++ code in the same manner that sqldf utilizes SQL code. However, we can differentiate the two packages, as Rccp will compile C++ code and construct R functions that connects to the compiled C++ function in question, rather than literally typing SQL commands into the R environment as sqldf does. In addition, Rcpp does not require the use of assignment to create functions.
 
 
 # Reflection
