@@ -58,6 +58,8 @@ In order to best demonstrate the functionality of sqldf and SQL in general, belo
 stats <- read_csv("nba2020-21.csv")
 salaries <- read_csv("nba_salaries_21.csv")
 
+colnames(salaries) <- c("Player", "Salary")
+
 # Function to convert each name into UTF-8 compatible letters
 utf_compatible <- function(name){
   Encoding(name) <- "UTF-8"
@@ -115,6 +117,17 @@ num.players <- sqldf("SELECT Tm as Team, COUNT(Tm) as 'Total Players'
 datatable(num.players)
 ```
 
+### Average salary for each team
+```{r TeamSalary}
+team.salary <- sqldf("SELECT a.Tm as Team, ROUND(AVG(b.salary), 2) as 'Mean Salary ($)'
+                     FROM stats a
+                     LEFT JOIN salaries b ON a.Player = b.Player
+                     WHERE a.Tm != 'TOT' & b.Salary != 'NA'
+                     GROUP BY a.Tm
+                     ")
+
+datatable(team.salary)
+```
 
 
 
